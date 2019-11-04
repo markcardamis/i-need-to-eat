@@ -13,7 +13,7 @@ import javax.net.ssl.SSLContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ServiceHelper implements IServiceHelper
+public class HttpServiceHelper implements IHttpServiceHelper
 {
     private static final int HTTP_REQUEST_TIMEOUT = 60000;
 

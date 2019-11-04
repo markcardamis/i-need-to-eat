@@ -1,5 +1,5 @@
 package com.majoapps.lunchapp.utils;
 
-public interface IServiceHelper {
+public interface IHttpServiceHelper {
     String callHttpService(String endpoint, HttpMethod method, String json) throws Exception;
 }
