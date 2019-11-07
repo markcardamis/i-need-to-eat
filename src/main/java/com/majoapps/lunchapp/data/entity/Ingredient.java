@@ -29,11 +29,11 @@ public class Ingredient {
     @Column
     private String title;
 
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
     @Column
     private LocalDate bestBefore;
 
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
     @Column
     private LocalDate useBy;
 

@@ -23,24 +23,22 @@ public class MyRunner implements CommandLineRunner {
     }
     
     @Autowired
-    private IngredientClientService ingredients;
+    private IngredientClientService ingredientClientService;
 
     @Autowired
-    private RecipeClientService recipes;
+    private RecipeClientService recipeClientService;
 
     @Override
     public void run(String... args) throws Exception {
         
-        //IngredientDtoWrapper ingredientList = ingredients.get();
-        List<IngredientDto> ingredient = ingredients.getIngredients();
-        for (IngredientDto ingredientItem : ingredient) {		
-            System.out.println(ingredientItem);
+        List<IngredientDto> ingredients = ingredientClientService.getIngredients();
+        for (IngredientDto ingredient : ingredients) {		
+            System.out.println(ingredient);
         }
 
-        //RecipeDtoWrapper recipeList = recipes.get();
-        List<RecipeDto> recipe = recipes.getRecipes();
-			for (RecipeDto recipeItem : recipe) {
-				System.out.println(recipeItem);
+        List<RecipeDto> recipes = recipeClientService.getRecipes();
+			for (RecipeDto recipe : recipes) {
+				System.out.println(recipe);
 			}
     }
 }

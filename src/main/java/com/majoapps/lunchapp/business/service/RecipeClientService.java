@@ -18,10 +18,6 @@ public class RecipeClientService {
     @Autowired
     RestTemplate restTemplate;
 
-    // public RecipeDtoWrapper get() throws Exception {
-    //     return restTemplate.getForObject(ROOT_URI, RecipeDtoWrapper.class);
-    // }
-
     public List<RecipeDto> getRecipes() throws Exception {
         return restTemplate.getForObject(ROOT_URI, RecipeDtoWrapper.class).getRecipes();
     }
