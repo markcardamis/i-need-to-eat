@@ -55,11 +55,26 @@ public class RecipeClientService {
                     recipeEntity = recipeResponse.get(0);
                 }
 
+                // for (String ingredient : recipe.getIngredients()) {
+                //     Ingredient ingredientEntity = new Ingredient();
+                //     ingredientEntity.setTitle(ingredient);
+                //     ingredientEntity.setRecipe(recipeEntity);
+                //     ingredientRepository.save(ingredientEntity);
+                // }
+
                 for (String ingredient : recipe.getIngredients()) {
+                    List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient);
                     Ingredient ingredientEntity = new Ingredient();
-                    ingredientEntity.setTitle(ingredient);
-                    ingredientEntity.setRecipe(recipeEntity);
-                    ingredientRepository.save(ingredientEntity);
+                    if (ingredientResponse.size() == 0) { //add new ingredient as it doesn't exist 
+                        ingredientEntity.setTitle(ingredient);
+                        ingredientEntity.setRecipe(recipeEntity);
+                        ingredientRepository.save(ingredientEntity);
+                    } else for (Ingredient ingredientTemp : ingredientResponse) { // update Dates on existing items
+                        ingredientEntity.setId(ingredientTemp.getId());
+                        ingredientEntity.setTitle(ingredientTemp.getTitle());
+                        ingredientEntity.setRecipe(ingredientTemp.getRecipe());
+                        ingredientRepository.save(ingredientEntity);
+                    }
                 }
             });
         }

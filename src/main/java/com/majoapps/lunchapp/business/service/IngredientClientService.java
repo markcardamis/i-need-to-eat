@@ -49,8 +49,7 @@ public class IngredientClientService {
             ingredients.forEach(ingredient -> {
                 List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient.getTitle());
                 Ingredient ingredientEntity = new Ingredient();
-                if (ingredientResponse.size() == 0) { //add new ingredient as it doesn't exist
-                
+                if (ingredientResponse.size() == 0) { //add new ingredient as it doesn't exist 
                     ingredientEntity.setTitle(ingredient.getTitle());
                     ingredientEntity.setBestBefore(ingredient.getBestBefore());
                     ingredientEntity.setUseBy(ingredient.getUseBy());
