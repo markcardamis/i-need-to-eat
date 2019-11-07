@@ -1,9 +1,7 @@
 package com.majoapps.lunchapp.data.repository;
 
 import java.util.List;
-
 import com.majoapps.lunchapp.data.entity.Recipe;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

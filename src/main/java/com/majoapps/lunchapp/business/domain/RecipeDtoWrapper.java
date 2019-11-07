@@ -2,7 +2,6 @@ package com.majoapps.lunchapp.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;

@@ -19,7 +19,7 @@ class IngredientServiceTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private IngredientClientService ingredients;
+    private IngredientClientService ingredientClientService;
 
     @Test
     void getIngredientsUsingTestRestClient() throws Exception {
@@ -31,8 +31,7 @@ class IngredientServiceTest {
 
     @Test
     void getIngredientsUsingRestClient() throws Exception {
-        //IngredientDtoWrapper ingredientList = ingredients.get();
-        List<IngredientDto> ingredient = ingredients.getIngredients();
+        List<IngredientDto> ingredient = ingredientClientService.getIngredientsRestTemplate();
         for (IngredientDto ingredientItem : ingredient) {		
             System.out.println(ingredientItem);
         }

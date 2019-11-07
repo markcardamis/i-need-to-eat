@@ -19,7 +19,7 @@ class RecipeServiceTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private RecipeClientService recipes;
+    private RecipeClientService recipeClientService;
 
     @Test
     void getRecipesUsingTestRestClient() throws Exception {
@@ -30,8 +30,7 @@ class RecipeServiceTest {
 
     @Test
     void getRecipesUsingRestClient() throws Exception {
-        //RecipeDtoWrapper recipeList = recipes.get();
-        List<RecipeDto> recipe = recipes.getRecipes();
+        List<RecipeDto> recipe = recipeClientService.getRecipesRestTemplate();
         for (RecipeDto recipeItem : recipe) {		
             System.out.println(recipeItem);
         }
