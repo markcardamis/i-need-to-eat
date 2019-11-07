@@ -1,16 +1,17 @@
 package com.majoapps.lunchapp.business.domain;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Ingredient {
+public class IngredientDto {
     
         @JsonProperty("title") private String title;
-        @JsonProperty("best-before") private String bestBefore;
-        @JsonProperty("use-by") private String useBy;
-    
+        @JsonProperty("best-before") private LocalDate bestBefore;
+        @JsonProperty("use-by") private LocalDate useBy;
 
 }

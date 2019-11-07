@@ -1,6 +1,6 @@
 package com.majoapps.lunchapp.data.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,10 +31,10 @@ public class Ingredient {
 
     @Temporal(TemporalType.DATE)
     @Column
-    private Date bestBefore;
+    private LocalDate bestBefore;
 
     @Temporal(TemporalType.DATE)
     @Column
-    private Date useBy;
+    private LocalDate useBy;
 
 }

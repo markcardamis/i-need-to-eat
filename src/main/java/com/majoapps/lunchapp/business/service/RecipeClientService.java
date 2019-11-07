@@ -1,6 +1,9 @@
 package com.majoapps.lunchapp.business.service;
 
-import com.majoapps.lunchapp.business.domain.RecipeWrapper;
+import java.util.List;
+
+import com.majoapps.lunchapp.business.domain.RecipeDto;
+import com.majoapps.lunchapp.business.domain.RecipeDtoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +18,12 @@ public class RecipeClientService {
     @Autowired
     RestTemplate restTemplate;
 
-    public RecipeWrapper get() throws Exception {
-        return restTemplate.getForObject(ROOT_URI, RecipeWrapper.class);
+    // public RecipeDtoWrapper get() throws Exception {
+    //     return restTemplate.getForObject(ROOT_URI, RecipeDtoWrapper.class);
+    // }
+
+    public List<RecipeDto> getRecipes() throws Exception {
+        return restTemplate.getForObject(ROOT_URI, RecipeDtoWrapper.class).getRecipes();
     }
 
 }

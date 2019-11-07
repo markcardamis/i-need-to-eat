@@ -9,13 +9,13 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonRootName(value = "ingredients") //root Wrapper name
-public class IngredientWrapper {
-    
-    private List<Ingredient> ingredients;
+@JsonRootName(value = "recipes") //root Wrapper name
+public class RecipeDtoWrapper {
 
-    public IngredientWrapper() {
-        ingredients = new ArrayList<>();
+    private List<RecipeDto> recipes;
+
+    public RecipeDtoWrapper() {
+        recipes = new ArrayList<>();
     }
 
 }
