@@ -39,11 +39,8 @@ public class IngredientClientService {
         return restTemplate.getForObject(ROOT_URI, IngredientDtoWrapper.class).getIngredients();
     }
 
-    public List<IngredientDto> saveIngredients(@Nullable String recipeTitle, @Nullable List<IngredientDto> ingredients) {
-        if (ingredients == null) {
-            ingredients = restTemplate.getForObject(ROOT_URI, IngredientDtoWrapper.class)
-            .getIngredients();
-        } 
+    public List<IngredientDto> saveIngredients() throws Exception {
+        List<IngredientDto> ingredients = getIngredients();
         
         if (ingredients == null || ingredients.size() == 0) {
             throw new ResourceNotFoundException("Cannot retrieve any ingredients");
@@ -52,32 +49,34 @@ public class IngredientClientService {
             ingredients.forEach(ingredient -> {
                 List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient.getTitle());
                 Ingredient ingredientEntity = new Ingredient();
-                if (ingredientResponse.size() == 0) {
-                    //add new ingredient as it doesn't exist
+                if (ingredientResponse.size() == 0) { //add new ingredient as it doesn't exist
+                
                     ingredientEntity.setTitle(ingredient.getTitle());
                     ingredientEntity.setBestBefore(ingredient.getBestBefore());
                     ingredientEntity.setUseBy(ingredient.getUseBy());
-                } else {
-                    ingredientEntity.setId(ingredientResponse.get(0).getId());
-                    ingredientEntity.setTitle(ingredientResponse.get(0).getTitle());
-                    ingredientEntity.setRecipe(ingredientResponse.get(0).getRecipe());
+                    ingredientRepository.save(ingredientEntity);
+                } else for (Ingredient ingredientTemp : ingredientResponse) { // update Dates on existing items
+                    ingredientEntity.setId(ingredientTemp.getId());
+                    ingredientEntity.setTitle(ingredientTemp.getTitle());
+                    ingredientEntity.setRecipe(ingredientTemp.getRecipe());
                     ingredientEntity.setBestBefore(ingredient.getBestBefore());
                     ingredientEntity.setUseBy(ingredient.getUseBy());
+                    ingredientRepository.save(ingredientEntity);
                 }
-                if (recipeTitle != null) {
-                    List<Recipe> recipeResponse = recipeRepository.findByTitle(recipeTitle);
-                    if (recipeResponse.size() == 0) {
-                        //add new recipe as it doesn't exist
-                        Recipe recipeEntity = new Recipe();
-                        recipeEntity.setTitle(recipeTitle);
-                        recipeEntity = recipeRepository.save(recipeEntity);
-                        ingredientEntity.setRecipe(recipeEntity); 
-                    } else {
-                        //add to existing recipe
-                        ingredientEntity.setRecipe(recipeResponse.get(0));                    
-                    }   
-                }
-                ingredientRepository.save(ingredientEntity);
+                // if (recipeTitle != null) {
+                //     List<Recipe> recipeResponse = recipeRepository.findByTitle(recipeTitle);
+                //     if (recipeResponse.size() == 0) {
+                //         //add new recipe as it doesn't exist
+                //         Recipe recipeEntity = new Recipe();
+                //         recipeEntity.setTitle(recipeTitle);
+                //         recipeEntity = recipeRepository.save(recipeEntity);
+                //         ingredientEntity.setRecipe(recipeEntity); 
+                //     } else {
+                //         //add to existing recipe
+                //         ingredientEntity.setRecipe(recipeResponse.get(0));                    
+                //     }   
+                // }
+                //ingredientRepository.save(ingredientEntity);
             });
         }
         return ingredients;

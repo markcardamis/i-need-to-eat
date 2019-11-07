@@ -44,9 +44,9 @@ public class MyRunner implements CommandLineRunner {
         // }
 
         List<RecipeDto> recipes = recipeClientService.saveRecipes();
-        Iterable<Recipe> iterable1 = recipeClientService.get();
-        System.out.println(iterable1);
-        //List<IngredientDto> ingredients = ingredientClientService.saveIngredients(null, null);
+        //Iterable<Recipe> iterable1 = recipeClientService.get();
+        //System.out.println(iterable1);
+        List<IngredientDto> ingredients = ingredientClientService.saveIngredients();
         Iterable<Ingredient> iterable2 = ingredientClientService.get();
         System.out.println(iterable2);
     
