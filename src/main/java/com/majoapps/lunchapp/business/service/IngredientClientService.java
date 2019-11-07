@@ -5,10 +5,13 @@ import java.util.List;
 import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.business.domain.IngredientDtoWrapper;
 import com.majoapps.lunchapp.data.entity.Ingredient;
+import com.majoapps.lunchapp.data.entity.Recipe;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
+import com.majoapps.lunchapp.data.repository.RecipeRepository;
 import com.majoapps.lunchapp.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import lombok.Data;
@@ -25,22 +28,55 @@ public class IngredientClientService {
     @Autowired
     IngredientRepository ingredientRepository;
 
+    @Autowired
+    RecipeRepository recipeRepository;
+
+    public Iterable<Ingredient> get() throws Exception {
+        return ingredientRepository.findAll();
+    }
+
     public List<IngredientDto> getIngredients() throws Exception {
         return restTemplate.getForObject(ROOT_URI, IngredientDtoWrapper.class).getIngredients();
     }
 
-    public List<IngredientDto> saveIngredients() {
-        List<IngredientDto> ingredients = restTemplate.getForObject(ROOT_URI, IngredientDtoWrapper.class)
-                .getIngredients();
+    public List<IngredientDto> saveIngredients(@Nullable String recipeTitle, @Nullable List<IngredientDto> ingredients) {
+        if (ingredients == null) {
+            ingredients = restTemplate.getForObject(ROOT_URI, IngredientDtoWrapper.class)
+            .getIngredients();
+        } 
+        
         if (ingredients == null || ingredients.size() == 0) {
             throw new ResourceNotFoundException("Cannot retrieve any ingredients");
         } else {
             // iterate and save each object if it doesn't already exist
             ingredients.forEach(ingredient -> {
+                List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient.getTitle());
                 Ingredient ingredientEntity = new Ingredient();
-                ingredientEntity.setTitle(ingredient.getTitle());
-                ingredientEntity.setBestBefore(ingredient.getBestBefore());
-                ingredientEntity.setUseBy(ingredient.getUseBy());
+                if (ingredientResponse.size() == 0) {
+                    //add new ingredient as it doesn't exist
+                    ingredientEntity.setTitle(ingredient.getTitle());
+                    ingredientEntity.setBestBefore(ingredient.getBestBefore());
+                    ingredientEntity.setUseBy(ingredient.getUseBy());
+                } else {
+                    ingredientEntity.setId(ingredientResponse.get(0).getId());
+                    ingredientEntity.setTitle(ingredientResponse.get(0).getTitle());
+                    ingredientEntity.setRecipe(ingredientResponse.get(0).getRecipe());
+                    ingredientEntity.setBestBefore(ingredient.getBestBefore());
+                    ingredientEntity.setUseBy(ingredient.getUseBy());
+                }
+                if (recipeTitle != null) {
+                    List<Recipe> recipeResponse = recipeRepository.findByTitle(recipeTitle);
+                    if (recipeResponse.size() == 0) {
+                        //add new recipe as it doesn't exist
+                        Recipe recipeEntity = new Recipe();
+                        recipeEntity.setTitle(recipeTitle);
+                        recipeEntity = recipeRepository.save(recipeEntity);
+                        ingredientEntity.setRecipe(recipeEntity); 
+                    } else {
+                        //add to existing recipe
+                        ingredientEntity.setRecipe(recipeResponse.get(0));                    
+                    }   
+                }
                 ingredientRepository.save(ingredientEntity);
             });
         }

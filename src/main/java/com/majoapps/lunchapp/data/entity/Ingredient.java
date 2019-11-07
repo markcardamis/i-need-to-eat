@@ -23,7 +23,7 @@ public class Ingredient {
     private Integer id;
 
     @ManyToOne(targetEntity = Recipe.class)
-    @JoinColumn(name = "recipe_id", nullable = false)
+    @JoinColumn(name = "recipe_id")//, nullable = false)
     private Recipe recipe;
 
     @Column

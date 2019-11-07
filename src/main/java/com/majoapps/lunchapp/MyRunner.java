@@ -4,6 +4,8 @@ import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.business.domain.RecipeDto;
 import com.majoapps.lunchapp.business.service.IngredientClientService;
 import com.majoapps.lunchapp.business.service.RecipeClientService;
+import com.majoapps.lunchapp.data.entity.Ingredient;
+import com.majoapps.lunchapp.data.entity.Recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,14 +33,23 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         
-        List<IngredientDto> ingredients = ingredientClientService.getIngredients();
-        for (IngredientDto ingredient : ingredients) {		
-            System.out.println(ingredient);
-        }
+        // List<IngredientDto> ingredients = ingredientClientService.getIngredients();
+        // for (IngredientDto ingredient : ingredients) {		
+        //     System.out.println(ingredient);
+        // }
 
-        List<RecipeDto> recipes = recipeClientService.getRecipes();
-			for (RecipeDto recipe : recipes) {
-				System.out.println(recipe);
-			}
+        // List<RecipeDto> recipes = recipeClientService.getRecipes();
+        // for (RecipeDto recipe : recipes) {
+        //     System.out.println(recipe);
+        // }
+
+        List<RecipeDto> recipes = recipeClientService.saveRecipes();
+        Iterable<Recipe> iterable1 = recipeClientService.get();
+        System.out.println(iterable1);
+        //List<IngredientDto> ingredients = ingredientClientService.saveIngredients(null, null);
+        Iterable<Ingredient> iterable2 = ingredientClientService.get();
+        System.out.println(iterable2);
+    
+
     }
 }
