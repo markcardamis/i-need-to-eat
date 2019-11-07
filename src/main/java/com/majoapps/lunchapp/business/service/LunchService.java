@@ -13,15 +13,19 @@ import lombok.Data;
 @Service
 public class LunchService {
 
+    private final RecipeRepository recipeRepository;
+
     @Autowired
-    RecipeRepository recipeRepository;
+    public LunchService(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
 
     public Iterable<Recipe> getRecipes() {
         return null;
     }
 
     public Iterable<Recipe> getRecipesWithIngredients() throws Exception {
-        return recipeRepository.findAll();
+        return this.recipeRepository.findAll();
     }
 
     

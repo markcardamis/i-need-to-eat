@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value="/api/v1/lunch")
 public class LunchServiceController {
 
-    @Autowired
-    private LunchService lunchService;
+    // @Autowired
+    // private LunchService lunchService;
 
-    @RequestMapping(method= RequestMethod.GET)
-    public Iterable<Recipe> getRecipes() {
-        return lunchService.getRecipes();
-    }
+    // @RequestMapping(method= RequestMethod.GET)
+    // public Iterable<Recipe> get() {
+    //     return lunchService.getRecipes();
+    // }
 
 
 }

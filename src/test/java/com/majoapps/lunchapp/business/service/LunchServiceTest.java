@@ -11,16 +11,16 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class LunchServiceTest {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
+    // @Autowired
+    // private RecipeRepository recipeRepository;
 
-    @Test
-    void getRecipesWithIngredients() throws Exception {
-        Iterable<Recipe> recipes = recipeRepository.findAll();
-        recipes.forEach(recipe -> {
-            System.out.println(recipe);
-        });
-    }
+    // @Test
+    // void getRecipesWithIngredients() throws Exception {
+    //     Iterable<Recipe> recipes = recipeRepository.findAll();
+    //     recipes.forEach(recipe -> {
+    //         System.out.println(recipe);
+    //     });
+    // }
 
     // @Test
     // void getRecipesWithGoodIngredients() throws Exception {
