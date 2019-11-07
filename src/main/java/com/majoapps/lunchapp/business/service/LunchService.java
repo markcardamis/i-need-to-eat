@@ -1,10 +1,7 @@
 package com.majoapps.lunchapp.business.service;
 
-import java.util.List;
-
 import com.majoapps.lunchapp.data.entity.Recipe;
 import com.majoapps.lunchapp.data.repository.RecipeRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.Data;
