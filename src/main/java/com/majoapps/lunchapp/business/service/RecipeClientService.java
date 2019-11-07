@@ -43,6 +43,7 @@ public class RecipeClientService {
                 List<Recipe> recipeResponse = recipeRepository.findByTitle(recipe.getTitle());
                 if (recipeResponse.isEmpty()) { //add new recipe as it doesn't exist
                     recipeEntity.setTitle(recipe.getTitle());
+                    recipeEntity.setIngredientCount(recipe.getIngredients().size());
                     recipeEntity = recipeRepository.save(recipeEntity);
                 } else {
                     recipeEntity = recipeResponse.get(0);
@@ -56,7 +57,7 @@ public class RecipeClientService {
                         ingredientEntity.setRecipe(recipeEntity);
                         ingredientRepository.save(ingredientEntity);
                     } else for (Ingredient ingredientTemp : ingredientResponse) { //modify existing
-                        ingredientEntity.setId(ingredientTemp.getId());
+                        //ingredientEntity.setId(ingredientTemp.getId());
                         ingredientEntity.setTitle(ingredientTemp.getTitle());
                         ingredientEntity.setRecipe(ingredientTemp.getRecipe());
                         ingredientRepository.save(ingredientEntity);
