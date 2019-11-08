@@ -11,6 +11,5 @@ public class LunchOptions {
     private String title;
     private LocalDate bestBefore;
     private LocalDate useBy;
-    private String firstName;
-    private String lastName;
+    private String ingredient;
 }

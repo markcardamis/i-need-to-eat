@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.business.domain.IngredientDtoWrapper;
+import com.majoapps.lunchapp.data.entity.Ingredient;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +38,14 @@ class IngredientServiceTest {
             System.out.println(ingredientItem);
         }
         assertNotNull(ingredient);
+    }
+
+    @Test
+    void getIngredientsFromDatabase() throws Exception {
+        Iterable<Ingredient> ingredients = ingredientClientService.ingredientRepository.findAll();
+        ingredients.forEach(ingredient -> {
+            System.out.println(ingredient);
+        });
     }
 
 }
