@@ -1,5 +1,6 @@
 package com.majoapps.lunchapp.business.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,15 +44,23 @@ class LunchServiceTest {
     }
 
     @Test
-    void getIngredients1() throws Exception {
-        Iterable<Ingredient> ingredients = ingredientRepository.findAll();
-        List<Recipe> recipeList = new ArrayList<>();
+    void getIngredientsUseByAfter() throws Exception {
+        Iterable<Ingredient> ingredients = ingredientRepository.findByUseByAfter(LocalDate.now());
         ingredients.forEach(ingredient -> {
-            recipeList.add(ingredient.getRecipe());
+            System.out.println(ingredient);
         });
-        Integer occurrences = Collections.frequency(recipeList, "Fry-up");
-        System.out.println(ingredients);
     }
+
+    // @Test
+    // void getIngredients1() throws Exception {
+    //     Iterable<Ingredient> ingredients = ingredientRepository.findAll();
+    //     List<Recipe> recipeList = new ArrayList<>();
+    //     ingredients.forEach(ingredient -> {
+    //         recipeList.add(ingredient.);
+    //     });
+    //     Integer occurrences = Collections.frequency(recipeList, "Fry-up");
+    //     System.out.println(ingredients);
+    // }
 
     // @Test
     // void getRecipesWithGoodIngredients() throws Exception {

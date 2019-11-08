@@ -51,7 +51,6 @@ public class IngredientClientService {
                 } else for (Ingredient ingredientTemp : ingredientResponse) { // update Dates on existing items
                     ingredientEntity.setId(ingredientTemp.getId());
                     ingredientEntity.setTitle(ingredientTemp.getTitle());
-                    ingredientEntity.setRecipe(ingredientTemp.getRecipe());
                     ingredientEntity.setBestBefore(ingredient.getBestBefore());
                     ingredientEntity.setUseBy(ingredient.getUseBy());
                     ingredientRepository.save(ingredientEntity);
