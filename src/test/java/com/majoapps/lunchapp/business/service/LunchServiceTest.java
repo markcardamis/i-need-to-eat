@@ -31,7 +31,6 @@ class LunchServiceTest {
         Iterable<Recipe> recipes = recipeRepository.findAll();
         recipes.forEach(recipe -> {
             System.out.println(recipe);
-            System.out.println(recipe.getIngredient().size());
         });
     }
 

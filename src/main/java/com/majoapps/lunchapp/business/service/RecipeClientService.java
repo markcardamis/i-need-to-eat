@@ -37,30 +37,25 @@ public class RecipeClientService {
         if (recipes == null || recipes.isEmpty()) {
             throw new ResourceNotFoundException("Cannot retrieve any recipes");
         } else {
-            // iterate and save each object if it doesn't already exist
+            // iterate and save each recipe as long as there is one ingredient
             recipes.forEach(recipe -> {
                 Recipe recipeEntity = new Recipe();
                 List<Recipe> recipeResponse = recipeRepository.findByTitle(recipe.getTitle());
                 if (recipeResponse.isEmpty()) { //add new recipe as it doesn't exist
                     recipeEntity.setTitle(recipe.getTitle());
                     recipeEntity.setIngredientCount(recipe.getIngredients().size());
-                    for (String ingredient : recipe.getIngredients()) {
-                        List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient);
-                        Ingredient ingredientEntity = new Ingredient();
-                        if (ingredientResponse.isEmpty()) { //add new ingredient as it doesn't exist 
-                            ingredientEntity.setTitle(ingredient);
-                            ingredientEntity.setRecipe(recipeEntity);
-                            ingredientRepository.save(ingredientEntity);
-                        } else for (Ingredient ingredientTemp : ingredientResponse) { //modify existing
-                            ingredientEntity.setId(ingredientTemp.getId());
-                            ingredientEntity.setTitle(ingredientTemp.getTitle());
-                            ingredientEntity.setRecipe(ingredientTemp.getRecipe());
-                            ingredientRepository.save(ingredientEntity);
-                        }
-                    }
-                    recipeEntity = recipeRepository.save(recipeEntity);
                 } else {
                     recipeEntity = recipeResponse.get(0);
+                }
+                for (String ingredient : recipe.getIngredients()) {
+                    List<Recipe> ingredientResponse = recipeRepository.findByTitleAndIngredient(recipeEntity.getTitle(), ingredient);
+                    if (ingredientResponse.isEmpty()) { //add new ingredient to recipe
+                        Recipe recipeIngredientEntity = new Recipe();
+                        recipeIngredientEntity.setIngredientCount(recipe.getIngredients().size());
+                        recipeIngredientEntity.setTitle(recipeEntity.getTitle());
+                        recipeIngredientEntity.setIngredient(ingredient);
+                        recipeIngredientEntity = recipeRepository.save(recipeIngredientEntity);
+                    } 
                 }
             });
         }

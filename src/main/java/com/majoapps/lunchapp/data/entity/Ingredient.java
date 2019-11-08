@@ -20,10 +20,6 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne(targetEntity = Recipe.class)
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
-
     @Column
     private String title;
 
