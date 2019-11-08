@@ -27,22 +27,31 @@ class LunchServiceTest {
     private IngredientRepository ingredientRepository;
 
     @Test
-    void getRecipesWithIngredients() throws Exception {
+    void getRecipes() throws Exception {
         Iterable<Recipe> recipes = recipeRepository.findAll();
         recipes.forEach(recipe -> {
             System.out.println(recipe);
+            System.out.println(recipe.getIngredient().size());
         });
     }
 
     @Test
     void getIngredients() throws Exception {
         Iterable<Ingredient> ingredients = ingredientRepository.findAll();
+        ingredients.forEach(ingredient -> {
+            System.out.println(ingredient);
+        });
+    }
+
+    @Test
+    void getIngredients1() throws Exception {
+        Iterable<Ingredient> ingredients = ingredientRepository.findAll();
         List<Recipe> recipeList = new ArrayList<>();
         ingredients.forEach(ingredient -> {
             recipeList.add(ingredient.getRecipe());
         });
         Integer occurrences = Collections.frequency(recipeList, "Fry-up");
-        System.out.println(occurrences);
+        System.out.println(ingredients);
     }
 
     // @Test

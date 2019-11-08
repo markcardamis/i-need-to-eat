@@ -44,24 +44,23 @@ public class RecipeClientService {
                 if (recipeResponse.isEmpty()) { //add new recipe as it doesn't exist
                     recipeEntity.setTitle(recipe.getTitle());
                     recipeEntity.setIngredientCount(recipe.getIngredients().size());
+                    for (String ingredient : recipe.getIngredients()) {
+                        List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient);
+                        Ingredient ingredientEntity = new Ingredient();
+                        if (ingredientResponse.isEmpty()) { //add new ingredient as it doesn't exist 
+                            ingredientEntity.setTitle(ingredient);
+                            ingredientEntity.setRecipe(recipeEntity);
+                            ingredientRepository.save(ingredientEntity);
+                        } else for (Ingredient ingredientTemp : ingredientResponse) { //modify existing
+                            ingredientEntity.setId(ingredientTemp.getId());
+                            ingredientEntity.setTitle(ingredientTemp.getTitle());
+                            ingredientEntity.setRecipe(ingredientTemp.getRecipe());
+                            ingredientRepository.save(ingredientEntity);
+                        }
+                    }
                     recipeEntity = recipeRepository.save(recipeEntity);
                 } else {
                     recipeEntity = recipeResponse.get(0);
-                }
-
-                for (String ingredient : recipe.getIngredients()) {
-                    List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient);
-                    Ingredient ingredientEntity = new Ingredient();
-                    if (ingredientResponse.isEmpty()) { //add new ingredient as it doesn't exist 
-                        ingredientEntity.setTitle(ingredient);
-                        ingredientEntity.setRecipe(recipeEntity);
-                        ingredientRepository.save(ingredientEntity);
-                    } else for (Ingredient ingredientTemp : ingredientResponse) { //modify existing
-                        //ingredientEntity.setId(ingredientTemp.getId());
-                        ingredientEntity.setTitle(ingredientTemp.getTitle());
-                        ingredientEntity.setRecipe(ingredientTemp.getRecipe());
-                        ingredientRepository.save(ingredientEntity);
-                    }
                 }
             });
         }
