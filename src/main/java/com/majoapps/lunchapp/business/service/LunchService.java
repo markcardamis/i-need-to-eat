@@ -1,6 +1,10 @@
 package com.majoapps.lunchapp.business.service;
 
+import java.util.List;
+
+import com.majoapps.lunchapp.business.domain.LunchOptions;
 import com.majoapps.lunchapp.data.entity.Recipe;
+import com.majoapps.lunchapp.data.repository.IngredientRepository;
 import com.majoapps.lunchapp.data.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +14,11 @@ import lombok.Data;
 @Service
 public class LunchService {
 
-    private final RecipeRepository recipeRepository;
+    @Autowired
+    RecipeRepository recipeRepository;
 
     @Autowired
-    public LunchService(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
-    }
+    IngredientRepository ingredientRepository;
 
     public Iterable<Recipe> getRecipes() {
         return null;
@@ -23,6 +26,11 @@ public class LunchService {
 
     public Iterable<Recipe> getRecipesWithIngredients() throws Exception {
         return this.recipeRepository.findAll();
+    }
+
+    public List<LunchOptions> get(){
+
+        return null;
     }
 
     
