@@ -3,11 +3,13 @@ package com.majoapps.lunchapp.business.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.majoapps.lunchapp.business.domain.LunchOptions;
 import com.majoapps.lunchapp.data.entity.Ingredient;
 import com.majoapps.lunchapp.data.entity.Recipe;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
@@ -51,25 +53,46 @@ class LunchServiceTest {
         });
     }
 
-    // @Test
-    // void getIngredients1() throws Exception {
-    //     Iterable<Ingredient> ingredients = ingredientRepository.findAll();
-    //     List<Recipe> recipeList = new ArrayList<>();
-    //     ingredients.forEach(ingredient -> {
-    //         recipeList.add(ingredient.);
-    //     });
-    //     Integer occurrences = Collections.frequency(recipeList, "Fry-up");
-    //     System.out.println(ingredients);
-    // }
 
-    // @Test
-    // void getRecipesWithGoodIngredients() throws Exception {
-    //     // List<RecipeDto> recipe = recipeClientService.getRecipesRestTemplate();
-    //     // for (RecipeDto recipeItem : recipe) {		
-    //     //     System.out.println(recipeItem);
-    //     // }
-    //     // assertNotNull(recipe);
-    // }
+    @Test
+    void getRecipesWithGoodIngredients() throws Exception {
+        Map<String, List<Ingredient>> lunchMap = new HashMap<String, List<Ingredient>>();
+
+        Iterable<Ingredient> ingredients = ingredientRepository.findByUseByAfter(LocalDate.now());
+        for (Ingredient ingredient : ingredients) {
+            Iterable<Recipe> recipes = recipeRepository.findByIngredient(ingredient.getTitle());
+            recipes.forEach(recipe -> {
+                List<Ingredient> list = lunchMap.get(recipe.getTitle());
+                if (list == null)
+                {
+                    list = new ArrayList<Ingredient>();
+                    lunchMap.put(recipe.getTitle(), list);
+                }
+                list.add(ingredient);
+            });
+        }
+
+        List<LunchOptions> lunchOptions = new ArrayList<>();
+        for (String recipeTitle : lunchMap.keySet()) {
+            List<Recipe> recipes = recipeRepository.findByTitle(recipeTitle);
+            if (lunchMap.get(recipeTitle).size() == recipes.get(0).getIngredientCount()) {
+                LunchOptions lunchOption = new LunchOptions();
+                lunchOption.setTitle(recipeTitle);
+                    if (lunchOption.getBestBefore() == null) {
+                        lunchOption.setBestBefore(lunchMap.get(recipeTitle).get(0).getBestBefore());
+                    }
+                    for (Ingredient ingredientResponse : lunchMap.get(recipeTitle)) {
+                        if (lunchOption.getBestBefore().isAfter(ingredientResponse.getBestBefore())){
+                            lunchOption.setBestBefore(ingredientResponse.getBestBefore());
+                        }
+                    }
+                lunchOptions.add(lunchOption);
+            }       
+        }
+
+        System.out.println(lunchOptions);
+
+    }
 
     // @Test
     // void filterRecipesByIngredientDate() throws Exception {

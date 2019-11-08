@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface RecipeRepository extends CrudRepository <Recipe, Integer> {
     List<Recipe> findByTitle(String titleString);
     List<Recipe> findByTitleAndIngredient(String titleString, String ingredientString);
+    List<Recipe> findByIngredient(String ingredientString);
 }

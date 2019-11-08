@@ -33,6 +33,14 @@ public class LunchService {
     public List<LunchOptions> get() { 
 
         Iterable<Ingredient> ingredients = ingredientRepository.findByUseByAfter(LocalDate.now());
+
+        for (Ingredient ingredient : ingredients) {
+            Iterable<Recipe> recipes = recipeRepository.findByIngredient(ingredient.getTitle());
+            
+
+
+        }
+
         
 
 
