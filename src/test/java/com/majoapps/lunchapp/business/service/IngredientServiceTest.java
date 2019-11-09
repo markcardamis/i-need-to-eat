@@ -6,13 +6,12 @@ import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.business.domain.IngredientDtoWrapper;
 import com.majoapps.lunchapp.data.entity.Ingredient;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
-
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // for restTemplate
 @ActiveProfiles("test")

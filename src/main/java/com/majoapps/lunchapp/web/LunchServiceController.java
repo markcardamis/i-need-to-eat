@@ -2,8 +2,6 @@ package com.majoapps.lunchapp.web;
 
 import com.majoapps.lunchapp.business.domain.LunchResponse;
 import com.majoapps.lunchapp.business.service.LunchService;
-import com.majoapps.lunchapp.data.entity.Lunch;
-import com.majoapps.lunchapp.data.entity.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

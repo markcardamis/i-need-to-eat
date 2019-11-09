@@ -2,16 +2,15 @@ package com.majoapps.lunchapp.business.service;
 
 import com.majoapps.lunchapp.business.domain.RecipeDto;
 import com.majoapps.lunchapp.business.domain.RecipeDtoWrapper;
-import com.majoapps.lunchapp.data.entity.Ingredient;
 import com.majoapps.lunchapp.data.entity.Recipe;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
 import com.majoapps.lunchapp.data.repository.RecipeRepository;
 import com.majoapps.lunchapp.exception.ResourceNotFoundException;
+import java.util.List;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.util.List;
-import lombok.Data;
 
 @Data
 @Service

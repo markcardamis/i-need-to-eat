@@ -1,8 +1,8 @@
 package com.majoapps.lunchapp.business.domain;
 
-import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDate;
 import lombok.Data;
 
 @Data
