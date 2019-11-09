@@ -7,24 +7,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name="INGREDIENTS")
-public class Ingredient {
+@Table(name="LUNCH")
+public class Lunch {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column
     private String title;
 
+    @JsonIgnore
     @Column
     private LocalDate bestBefore;
-
-    @Column
-    private LocalDate useBy;
 
 }
