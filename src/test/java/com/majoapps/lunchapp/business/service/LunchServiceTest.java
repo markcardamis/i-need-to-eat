@@ -75,7 +75,7 @@ class LunchServiceTest {
         List<Lunch> lunchOptions = new ArrayList<>();
         for (String recipeTitle : lunchMap.keySet()) {
             List<Recipe> recipes = recipeRepository.findByTitle(recipeTitle);
-            if (lunchMap.get(recipeTitle).size() == recipes.get(0).getIngredientCount()) {
+            if (lunchMap.get(recipeTitle).size() == recipes.size()) {
                 Lunch lunchEntity = new Lunch();
                 lunchEntity.setTitle(recipeTitle);
                     if (lunchEntity.getBestBefore() == null) {
@@ -114,7 +114,7 @@ class LunchServiceTest {
 
         for (String recipeTitle : lunchMap.keySet()) {
             List<Recipe> recipes = recipeRepository.findByTitle(recipeTitle);
-            if (lunchMap.get(recipeTitle).size() == recipes.get(0).getIngredientCount()) {
+            if (lunchMap.get(recipeTitle).size() == recipes.size()) {
                 Lunch lunchEntity = new Lunch();
                 lunchEntity.setTitle(recipeTitle);
                     if (lunchEntity.getBestBefore() == null) {

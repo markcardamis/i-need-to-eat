@@ -48,7 +48,8 @@ public class LunchService {
 
         for (String recipeTitle : lunchMap.keySet()) {
             List<Recipe> recipes = recipeRepository.findByTitle(recipeTitle);
-            if (lunchMap.get(recipeTitle).size() == recipes.get(0).getIngredientCount()) {
+            //check if we have all the ingredients in the recipe after removing Use By ingredients
+            if (lunchMap.get(recipeTitle).size() == recipes.size()) {
                 Lunch lunchEntity = new Lunch();
                 lunchEntity.setTitle(recipeTitle);
                 if (lunchEntity.getBestBefore() == null) {

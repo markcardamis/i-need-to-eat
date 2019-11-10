@@ -22,6 +22,4 @@ public class Recipe {
     @Column 
     private String ingredient;
 
-    @Column
-    private Integer ingredientCount;
 }
