@@ -66,6 +66,9 @@ public class LunchService {
             });
         }
 
+        //clear any previous entries, however this should be a soft delete in future
+        lunchRepository.deleteAll();
+
         //run through the lunch HashMap and save the recipes where we have all the ingredients
         for (String recipeTitle : lunchMap.keySet()) {
             List<Recipe> recipes = recipeService.findByTitle(recipeTitle);

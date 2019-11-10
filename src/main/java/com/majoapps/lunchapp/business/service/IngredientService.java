@@ -3,7 +3,6 @@ package com.majoapps.lunchapp.business.service;
 import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.data.entity.Ingredient;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
-
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
