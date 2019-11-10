@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 @Table(name="LUNCH")
 public class Lunch {
-
     @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,5 +25,4 @@ public class Lunch {
     @JsonIgnore
     @Column
     private LocalDate bestBefore;
-
 }

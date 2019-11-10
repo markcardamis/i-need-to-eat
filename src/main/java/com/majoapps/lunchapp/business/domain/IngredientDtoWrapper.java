@@ -10,7 +10,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonRootName(value = "ingredients") //root Wrapper name
 public class IngredientDtoWrapper {
-    
+
     private List<IngredientDto> ingredients;
 
     public IngredientDtoWrapper() {

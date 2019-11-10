@@ -13,7 +13,6 @@ import lombok.Data;
 @Data
 @Table(name="INGREDIENTS")
 public class Ingredient {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -26,5 +25,4 @@ public class Ingredient {
 
     @Column
     private LocalDate useBy;
-
 }

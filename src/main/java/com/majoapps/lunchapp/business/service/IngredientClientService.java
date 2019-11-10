@@ -27,11 +27,9 @@ public class IngredientClientService {
     @Autowired
     RecipeRepository recipeRepository;
 
-
     public List<IngredientDto> getIngredientsRestTemplate() throws Exception {
         return restTemplate.getForObject(ROOT_URI, IngredientDtoWrapper.class).getIngredients();
     }
-
 
     public List<IngredientDto> saveIngredients() throws Exception {
         List<IngredientDto> ingredients = getIngredientsRestTemplate();

@@ -9,7 +9,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RecipeDto {
 
-        @JsonProperty("title") private String title;
-        @JsonProperty("ingredients") private List<String> ingredients;
-
+    @JsonProperty("title") private String title;
+    @JsonProperty("ingredients") private List<String> ingredients;
+    
 }

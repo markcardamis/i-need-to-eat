@@ -24,5 +24,4 @@ public class Recipe {
 
     @Column
     private Integer ingredientCount;
-
 }

@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface LunchRepository extends JpaRepository <Lunch, Integer> {
     List<Lunch> findAllByOrderByBestBeforeDesc();
     List<Lunch> findAllByOrderByBestBeforeAsc();
-
 }

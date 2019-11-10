@@ -11,5 +11,4 @@ public interface IngredientRepository extends JpaRepository <Ingredient, Integer
     List<Ingredient> findByTitle(String titleString);
     List<Ingredient> findByUseByAfter(LocalDate useBy);
     List<Ingredient> findAllByOrderByBestBeforeAsc();
-
 }

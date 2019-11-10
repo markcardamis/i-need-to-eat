@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientDto {
-    
-        @JsonProperty("title") private String title;
-        @JsonProperty("best-before") private LocalDate bestBefore;
-        @JsonProperty("use-by") private LocalDate useBy;
 
+    @JsonProperty("title") private String title;
+    @JsonProperty("best-before") private LocalDate bestBefore;
+    @JsonProperty("use-by") private LocalDate useBy;
+    
 }
