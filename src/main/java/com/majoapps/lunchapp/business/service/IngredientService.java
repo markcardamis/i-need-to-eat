@@ -3,6 +3,8 @@ package com.majoapps.lunchapp.business.service;
 import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.data.entity.Ingredient;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
+
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,10 @@ public class IngredientService {
             ingredientRepository.save(ingredientEntity);
         }
         return ingredientEntity;
+    }
+
+    public List<Ingredient> findByUseByAfter(LocalDate localDate) {
+        return ingredientRepository.findByUseByAfter(localDate);
     }
 
 }

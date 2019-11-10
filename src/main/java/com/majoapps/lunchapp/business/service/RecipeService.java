@@ -34,26 +34,12 @@ public class RecipeService {
         return recipeEntity;
     } 
 
-    // public Recipe saveRecipe(RecipeDto recipe) {
-    //     List<Recipe> recipeResponse = recipeRepository.findByTitle(recipe.getTitle());
-    //     Recipe recipeEntity = new Recipe();
-    //     if (recipeResponse.isEmpty()) { //add new recipe as it doesn't exist
-    //         recipeEntity.setTitle(recipe.getTitle());
-    //     } else {
-    //         recipeEntity = recipeResponse.get(0);
-    //     }
-    //     for (String ingredient : recipe.getIngredients()) { //save a new record per ingredient
-    //         List<Recipe> ingredientResponse = recipeRepository
-    //             .findByTitleAndIngredient(recipeEntity.getTitle(), ingredient);
-    //         if (ingredientResponse.isEmpty()) { //add new ingredient to recipe
-    //             Recipe recipeIngredientEntity = new Recipe();
-    //             recipeIngredientEntity.setTitle(recipeEntity.getTitle());
-    //             recipeIngredientEntity.setIngredient(ingredient);
-    //             recipeIngredientEntity = recipeRepository.save(recipeIngredientEntity);
-    //         } 
-    //     }
-    //     return recipeEntity;
-    // }   
+    public List<Recipe> findByTitle(String title) {
+        return recipeRepository.findByTitle(title);
+    }
 
-
+    public List<Recipe> findByIngredient(String ingredient) {
+        return recipeRepository.findByIngredient(ingredient);
+    }
+    
 }
