@@ -1,17 +1,19 @@
 package com.majoapps.lunchapp.business.service;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import com.majoapps.lunchapp.business.domain.IngredientDto;
 import com.majoapps.lunchapp.business.domain.IngredientDtoWrapper;
 import com.majoapps.lunchapp.data.entity.Ingredient;
 import com.majoapps.lunchapp.data.repository.IngredientRepository;
-import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // for restTemplate
 @ActiveProfiles("test")
@@ -21,7 +23,7 @@ class IngredientServiceTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private IngredientClientService ingredientClientService;
+    private IngredientService ingredientService;
 
     @Autowired
     private IngredientRepository ingredientRepository;
@@ -36,17 +38,15 @@ class IngredientServiceTest {
     }
 
     @Test
-    void getIngredientsUsingRestClient() throws Exception {
-        List<IngredientDto> ingredient = ingredientClientService.getIngredientsRestTemplate();
-        for (IngredientDto ingredientItem : ingredient) {		
-            System.out.println(ingredientItem);
-        }
+    void saveIngredient() throws Exception {
+        Ingredient ingredient = ingredientService.saveIngredient(null);
         assertNotNull(ingredient);
     }
 
+
     @Test
     void getIngredientsFromDatabase() throws Exception {
-        Iterable<Ingredient> ingredients = ingredientClientService.ingredientRepository.findAll();
+        Iterable<Ingredient> ingredients = ingredientService.getIngredientRepository().findAll();
         ingredients.forEach(ingredient -> {
             System.out.println(ingredient);
         });
@@ -60,4 +60,11 @@ class IngredientServiceTest {
         });
     }
 
+    @Test
+    void saveIngredient1() {
+    }
+
+    @Test
+    void findByUseByAfter() {
+    }
 }
