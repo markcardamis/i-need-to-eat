@@ -55,7 +55,7 @@ public class LunchService {
                     lunchEntity.setBestBefore(lunchMap.get(recipeTitle).get(0).getBestBefore());
                 }
                 for (Ingredient ingredientResponse : lunchMap.get(recipeTitle)) {
-                    if (lunchEntity.getBestBefore().isAfter(ingredientResponse.getBestBefore())){
+                    if (lunchEntity.getBestBefore().isAfter(ingredientResponse.getBestBefore())) {
                         lunchEntity.setBestBefore(ingredientResponse.getBestBefore());
                     }
                 }

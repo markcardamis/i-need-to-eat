@@ -47,7 +47,8 @@ public class RecipeClientService {
                     recipeEntity = recipeResponse.get(0);
                 }
                 for (String ingredient : recipe.getIngredients()) {
-                    List<Recipe> ingredientResponse = recipeRepository.findByTitleAndIngredient(recipeEntity.getTitle(), ingredient);
+                    List<Recipe> ingredientResponse = recipeRepository
+                        .findByTitleAndIngredient(recipeEntity.getTitle(), ingredient);
                     if (ingredientResponse.isEmpty()) { //add new ingredient to recipe
                         Recipe recipeIngredientEntity = new Recipe();
                         recipeIngredientEntity.setIngredientCount(recipe.getIngredients().size());

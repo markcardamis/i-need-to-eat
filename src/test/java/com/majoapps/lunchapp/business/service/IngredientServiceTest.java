@@ -29,7 +29,8 @@ class IngredientServiceTest {
     @Test
     void getIngredientsUsingTestRestClient() throws Exception {
         String fooResourceUrl = "http://www.mocky.io/v2/5dbf46a5330000f47aa0e55b";
-        IngredientDtoWrapper ingredients = restTemplate.getForObject(fooResourceUrl, IngredientDtoWrapper.class);
+        IngredientDtoWrapper ingredients = restTemplate
+            .getForObject(fooResourceUrl, IngredientDtoWrapper.class);
         List<IngredientDto> ingredient = ingredients.getIngredients();
         assertNotNull(ingredient);
     }

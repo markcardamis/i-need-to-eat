@@ -39,14 +39,15 @@ public class IngredientClientService {
         } else {
             // iterate and save each object if it doesn't already exist
             ingredients.forEach(ingredient -> {
-                List<Ingredient> ingredientResponse = ingredientRepository.findByTitle(ingredient.getTitle());
+                List<Ingredient> ingredientResponse = ingredientRepository
+                    .findByTitle(ingredient.getTitle());
                 Ingredient ingredientEntity = new Ingredient();
                 if (ingredientResponse.isEmpty()) { //add new ingredient as it doesn't exist 
                     ingredientEntity.setTitle(ingredient.getTitle());
                     ingredientEntity.setBestBefore(ingredient.getBestBefore());
                     ingredientEntity.setUseBy(ingredient.getUseBy());
                     ingredientRepository.save(ingredientEntity);
-                } else for (Ingredient ingredientTemp : ingredientResponse) { // update Dates on existing items
+                } else for (Ingredient ingredientTemp : ingredientResponse) { //update existing
                     ingredientEntity.setId(ingredientTemp.getId());
                     ingredientEntity.setTitle(ingredientTemp.getTitle());
                     ingredientEntity.setBestBefore(ingredient.getBestBefore());
