@@ -1,8 +1,26 @@
+// buildscript {
+//   ext {
+//     springBootVersion = '2.2.0.RELEASE'
+//   }
+//   repositories {
+//     mavenCentral()
+//   }
+//   dependencies {
+//     classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//     classpath "se.transmode.gradle:gradle-docker:1.2"
+//   }
+// }
+
 plugins {
 	id 'org.springframework.boot' version '2.2.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
+
+// apply plugin: 'java'
+// apply plugin: 'org.springframework.boot'
+// apply plugin: 'io.spring.dependency-management'
+// apply plugin: "docker"
 
 group = 'com.majoapps'
 version = '0.0.1-SNAPSHOT'
@@ -28,10 +46,22 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		//exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
 
 test {
 	useJUnitPlatform()
 }
+
+// task buildDocker(type: Docker, dependsOn: build) {
+//   push = true
+//   applicationName = jar.baseName
+//   dockerfile = file('Dockerfile')
+//   doFirst {
+//     copy {
+//       from jar
+//       into stageDir
+//     }
+//   }
+// }
