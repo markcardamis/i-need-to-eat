@@ -34,23 +34,45 @@ public class LunchService {
         this.ingredientService = ingredientService;
     }
 
-    public LunchResponse get() {
-        try { //fetch the recipes and ingredients then save to database
-            List<RecipeDto> recipeDtos = restTemplateService.getRecipes();
-            recipeDtos.forEach(recipeDto -> {
-                recipeService.saveRecipe(recipeDto);
-            });
-            List<IngredientDto> ingredientDtos = restTemplateService.getIngredients();
-            ingredientDtos.forEach(ingredientDto -> {
-                ingredientService.saveIngredient(ingredientDto);
-            });
-        } catch (Exception e) {
-            System.out.println("error: " + e.getLocalizedMessage());
-        } finally {
-            System.out.println("Fetched remote json");
-        }
+    public LunchResponse get() throws Exception {
+        //clear lunch table database entries so duplicates do not appear, use soft delete in future
+        lunchRepository.deleteAll();
+
+        saveRecipeListToDatabase(restTemplateService.getRecipes());
+        saveIngredientsListToDatabase(restTemplateService.getIngredients());
+
+        // create a lunchMap (HashMap) from the recipe and ingredient database tables
+        Map<String, List<Ingredient>> lunchMap = createLunchMapWithGoodIngredients();
         
-        //create a lunch map only containing recipes with good ingredients
+        // save the recipes which are valid options in the lunch table
+        saveRecipesWithCompleteIngredientsToDatabase(lunchMap);
+
+        // order the lunch options by Best Before
+        List<Lunch> lunches = lunchRepository.findAllByOrderByBestBeforeAsc();        
+
+        // send back the response using the LunchResponse model
+        LunchResponse lunchResponse = new LunchResponse();
+        lunchResponse.setRecipes(lunches);
+
+        return lunchResponse;
+    }
+
+    private void saveRecipeListToDatabase(List<RecipeDto> recipeDtos) {
+        // Iterate through the recipe list and save to the database
+        recipeDtos.forEach(recipeDto -> {
+            recipeService.saveRecipe(recipeDto);
+        });
+    }
+
+    private void saveIngredientsListToDatabase(List<IngredientDto> ingredientDtos) {
+        // Iterate through the ingredient list and save to the database
+        ingredientDtos.forEach(ingredientDto -> {
+            ingredientService.saveIngredient(ingredientDto);
+        });
+    }
+
+    private Map<String, List<Ingredient>> createLunchMapWithGoodIngredients() {
+        //create a lunch map from the database only containing recipes with good ingredients
         Map<String, List<Ingredient>> lunchMap = new HashMap<String, List<Ingredient>>();
         List<Ingredient> ingredients = ingredientService.findByUseByAfter(LocalDate.now());
         for (Ingredient ingredient : ingredients) {
@@ -66,10 +88,11 @@ public class LunchService {
             });
         }
 
-        //clear any previous entries, however this should be a soft delete in future
-        lunchRepository.deleteAll();
+        return lunchMap;
+    }
 
-        //run through the lunch HashMap and save the recipes where we have all the ingredients
+    private void saveRecipesWithCompleteIngredientsToDatabase(Map<String, List<Ingredient>> lunchMap) {
+        //run through the lunch HashMap and check we have all the ingredients
         for (String recipeTitle : lunchMap.keySet()) {
             List<Recipe> recipes = recipeService.findByTitle(recipeTitle);
             //check if we have all the ingredients in the recipe after removing Use By ingredients
@@ -84,16 +107,10 @@ public class LunchService {
                         lunchEntity.setBestBefore(ingredientResponse.getBestBefore());
                     }
                 }
+                //save the recipe in the lunch table once it is an option
                 lunchRepository.save(lunchEntity);
             }       
         }
-
-        List<Lunch> lunches = lunchRepository.findAllByOrderByBestBeforeAsc();        
-
-        LunchResponse lunchResponse = new LunchResponse();
-        lunchResponse.setRecipes(lunches);
-
-        return lunchResponse;
     }
 
 }

@@ -18,11 +18,16 @@ public class LunchServiceController {
 
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<LunchResponse> get() {
-        LunchResponse lunchResponse = lunchService.get();
-        if (lunchResponse == null || lunchResponse.getRecipes().isEmpty()) {
-          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            LunchResponse lunchResponse = lunchService.get();
+            if (lunchResponse == null || lunchResponse.getRecipes().isEmpty()) {
+              return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return ResponseEntity.ok(lunchResponse);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return ResponseEntity.ok(lunchResponse);
     }
 
 
