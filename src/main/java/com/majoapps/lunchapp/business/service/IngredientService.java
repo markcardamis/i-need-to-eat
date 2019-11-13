@@ -6,6 +6,7 @@ import com.majoapps.lunchapp.data.repository.IngredientRepository;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public Ingredient saveIngredient(IngredientDto ingredient) {
+    Ingredient saveIngredient(@NonNull IngredientDto ingredient) {
         List<Ingredient> ingredientResponse = ingredientRepository
             .findByTitle(ingredient.getTitle());
         Ingredient ingredientEntity = new Ingredient();
@@ -39,7 +40,7 @@ public class IngredientService {
         return ingredientEntity;
     }
 
-    public List<Ingredient> findByUseByAfter(LocalDate localDate) {
+    List<Ingredient> findByUseByAfter(LocalDate localDate) {
         return ingredientRepository.findByUseByAfter(localDate);
     }
 

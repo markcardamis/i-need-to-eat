@@ -5,6 +5,7 @@ import com.majoapps.lunchapp.data.entity.Recipe;
 import com.majoapps.lunchapp.data.repository.RecipeRepository;
 import java.util.List;
 import lombok.Data;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public Recipe saveRecipe(RecipeDto recipe) {
+    Recipe saveRecipe(@NonNull RecipeDto recipe) {
         Recipe recipeEntity = new Recipe();
         for (String ingredient : recipe.getIngredients()) { //save a new record per ingredient
             List<Recipe> ingredientResponse = recipeRepository
@@ -34,11 +35,11 @@ public class RecipeService {
         return recipeEntity;
     } 
 
-    public List<Recipe> findByTitle(String title) {
+    List<Recipe> findByTitle(String title) {
         return recipeRepository.findByTitle(title);
     }
 
-    public List<Recipe> findByIngredient(String ingredient) {
+    List<Recipe> findByIngredient(String ingredient) {
         return recipeRepository.findByIngredient(ingredient);
     }
     
