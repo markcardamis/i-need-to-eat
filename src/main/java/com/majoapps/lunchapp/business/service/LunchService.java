@@ -59,21 +59,17 @@ public class LunchService {
 
     private void saveRecipeListToDatabase(List<RecipeDto> recipeDtos) {
         // Iterate through the recipe list and save to the database
-        recipeDtos.forEach(recipeDto -> {
-            recipeService.saveRecipe(recipeDto);
-        });
+        recipeDtos.forEach(recipeService::saveRecipe);
     }
 
     private void saveIngredientsListToDatabase(List<IngredientDto> ingredientDtos) {
         // Iterate through the ingredient list and save to the database
-        ingredientDtos.forEach(ingredientDto -> {
-            ingredientService.saveIngredient(ingredientDto);
-        });
+        ingredientDtos.forEach(ingredientService::saveIngredient);
     }
 
     private Map<String, List<Ingredient>> createLunchMapWithGoodIngredients() {
         //create a lunch map from the database only containing recipes with good ingredients
-        Map<String, List<Ingredient>> lunchMap = new HashMap<String, List<Ingredient>>();
+        Map<String, List<Ingredient>> lunchMap = new HashMap<>();
         List<Ingredient> ingredients = ingredientService.findByUseByAfter(LocalDate.now());
         for (Ingredient ingredient : ingredients) {
             List<Recipe> recipes = recipeService.findByIngredient(ingredient.getTitle());
@@ -81,7 +77,7 @@ public class LunchService {
                 List<Ingredient> list = lunchMap.get(recipe.getTitle());
                 if (list == null)
                 {
-                    list = new ArrayList<Ingredient>();
+                    list = new ArrayList<>();
                     lunchMap.put(recipe.getTitle(), list);
                 }
                 list.add(ingredient);
