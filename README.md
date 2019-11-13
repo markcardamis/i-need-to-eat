@@ -2,8 +2,14 @@
 An API to retrieve a list of recipes based on the ingredients in your fridge.
 
 ## Getting Started
+### Using Docker
+* Open terminal and run ```docker --version``` to make sure you have docker installed otherwise download Docker Desktop from https://hub.docker.com/search?q=desktop&type=edition&offering=community 
+* Run the image as a docker container using ```docker run -p 8080:8080 -t markcardamis/lunchapp:1.0.0```
+* Make a GET request to ```http://localhost:8080/api/v1/lunch```
+
+### Using Gradle
 * Clone the repository using Git:  
-``` git clone https://github.com/markcardamis/i-need-to-eat.git```
+```git clone https://github.com/markcardamis/i-need-to-eat.git```
 * Change into the directory using ```cd i-need-to-eat```
 * Run the program using ```./gradlew bootRun```
 * Make a GET request to ```http://localhost:8080/api/v1/lunch```
