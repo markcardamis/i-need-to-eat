@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value="/api/v1/lunch")
 public class LunchServiceController {
 
-    @Autowired
-    private LunchService lunchService;
+    private final LunchService lunchService;
 
+    @Autowired
+    private LunchServiceController(LunchService lunchService){
+        this.lunchService = lunchService;
+    }
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<LunchResponse> get() {
         try {
