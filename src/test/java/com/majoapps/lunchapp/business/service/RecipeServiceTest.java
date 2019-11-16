@@ -30,7 +30,7 @@ import org.springframework.test.context.ActiveProfiles;
 @RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles("test")
 class RecipeServiceTest {
-    private final String RECIPE_JSON_FILENAME = "src/test/java/com/majoapps/lunchapp/recipes.json";
+    private final String RECIPE_JSON = "src/test/java/com/majoapps/lunchapp/recipes.json";
     private ObjectMapper objectMapper;
 
     @Mock
@@ -43,16 +43,17 @@ class RecipeServiceTest {
     void init() {
         MockitoAnnotations.initMocks(this);
         objectMapper = new ObjectMapper();
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        JavaTimeModule javaTimeModule = new JavaTimeModule();  //set LocalTime text format in JSON
+        javaTimeModule.addDeserializer(LocalDate.class, 
+            new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         objectMapper.registerModule(javaTimeModule);
     }
 
     @Test
-    @DisplayName("Test save recipe to repository")
+    @DisplayName("MockTest save recipe to repository")
     void saveRecipe() throws Exception {
         RecipeDtoWrapper recipeDtoWrapper = objectMapper.readValue
-                (new File(RECIPE_JSON_FILENAME), RecipeDtoWrapper.class);
+                (new File(RECIPE_JSON), RecipeDtoWrapper.class);
         List<RecipeDto> recipeDtos =  recipeDtoWrapper.getRecipes();
 
         when(recipeRepository.save(any(Recipe.class))).thenReturn(new Recipe());
@@ -66,6 +67,7 @@ class RecipeServiceTest {
     }
 
     @Test
+    @DisplayName("MockTest retrieving recipes by title")
     void findByTitle() throws Exception {
         List<Recipe> recipeArrayList = new ArrayList<>();
         Recipe recipe = new Recipe();
@@ -81,6 +83,7 @@ class RecipeServiceTest {
     }
 
     @Test
+    @DisplayName("MockTest retrieving recipes by ingredient")
     void findByIngredient() throws Exception {
         List<Recipe> recipeArrayList = new ArrayList<>();
         Recipe recipe = new Recipe();

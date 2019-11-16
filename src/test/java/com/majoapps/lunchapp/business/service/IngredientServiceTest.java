@@ -30,7 +30,7 @@ import org.springframework.test.context.ActiveProfiles;
 @RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles("test")
 class IngredientServiceTest {
-    private final String INGREDIENT_JSON_FILENAME = "src/test/java/com/majoapps/lunchapp/ingredients.json";
+    private final String INGREDIENT_JSON = "src/test/java/com/majoapps/lunchapp/ingredients.json";
     private ObjectMapper objectMapper;
     
     @Mock
@@ -43,16 +43,17 @@ class IngredientServiceTest {
     void init() {
         MockitoAnnotations.initMocks(this);
         objectMapper = new ObjectMapper();
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        JavaTimeModule javaTimeModule = new JavaTimeModule(); //set LocalTime text format in JSON
+        javaTimeModule.addDeserializer(LocalDate.class, 
+            new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         objectMapper.registerModule(javaTimeModule);
     }
     
     @Test
-    @DisplayName("Test save ingredient to repository")
+    @DisplayName("MockTest save ingredient to repository")
     void saveIngredient() throws Exception {
         IngredientDtoWrapper ingredientDtoWrapper = objectMapper.readValue
-                (new File(INGREDIENT_JSON_FILENAME), IngredientDtoWrapper.class);
+                (new File(INGREDIENT_JSON), IngredientDtoWrapper.class);
         List<IngredientDto> ingredientDtos =  ingredientDtoWrapper.getIngredients();
 
         when(ingredientRepository.save(any(Ingredient.class))).thenReturn(new Ingredient());
@@ -66,6 +67,7 @@ class IngredientServiceTest {
     }
 
     @Test
+    @DisplayName("MockTest retrieving ingredients by after use-by")
     void findByUseByAfter() throws Exception {
 
         // set an ingredient with good use-by date
