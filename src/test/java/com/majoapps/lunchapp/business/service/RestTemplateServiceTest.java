@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -38,7 +39,7 @@ class RestTemplateServiceTest {
     private RestTemplate restTemplate;
  
     @InjectMocks
-    private RestTemplateService restTemplateService;// = new RestTemplateService(restTemplate);
+    private RestTemplateService restTemplateService;
     
     @BeforeEach
     void init() {
@@ -51,6 +52,7 @@ class RestTemplateServiceTest {
     }
 
     @Test
+    @DisplayName("MockTest receiving recipes JSON from endpoint")
     void getRecipes() throws Exception {
         RecipeDtoWrapper recipeDtoWrapper = objectMapper.readValue
                 (new File(RECIPE_JSON), RecipeDtoWrapper.class);
@@ -68,6 +70,7 @@ class RestTemplateServiceTest {
     }
 
     @Test
+    @DisplayName("MockTest receiving ingredients JSON from endpoint")
     void getIngredients() throws Exception {
         IngredientDtoWrapper ingredientDtoWrapper = objectMapper.readValue
             (new File(INGREDIENT_JSON), IngredientDtoWrapper.class);
