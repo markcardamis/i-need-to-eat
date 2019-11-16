@@ -29,7 +29,7 @@ public class RecipeService {
                 recipeEntity = new Recipe();
                 recipeEntity.setTitle(recipe.getTitle());
                 recipeEntity.setIngredient(ingredient);
-                recipeEntity = recipeRepository.save(recipeEntity);
+                recipeRepository.save(recipeEntity);
             } 
         }
         return recipeEntity;
