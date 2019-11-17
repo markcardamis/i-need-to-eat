@@ -50,6 +50,10 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
 
 task buildDocker(type: Docker, dependsOn: build) {
