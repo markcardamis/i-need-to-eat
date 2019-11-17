@@ -32,6 +32,4 @@ public class LunchServiceController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-
-
 }
