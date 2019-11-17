@@ -126,7 +126,8 @@ Using Domain Driven Design the following folder structure is a skeleton of the p
 				└── LunchappApplication.java
 				└── MyRunner.java
 ```
-## Controllers
+## Web Layer
+### Controllers
 The `LunchServiceController` sets up the HTTP route and sets the endpoint. It delegates its work to the `LunchService` and waits for a LunchResponse object which has the list of options for lunch in a JSON format.
 
 ```
@@ -155,7 +156,7 @@ public class LunchServiceController {
     }
 }
 ```
-## Services
+## Service Layer
 ### LunchService
 The `LunchService` contains the business logic used to determine what are the lunch options for the day. The @Service annotation to provide the interface with: 
 * `LunchRepository` - DAO for interacting with the database table LUNCH
@@ -285,9 +286,15 @@ public class IngredientService {
 
 }
 ```
+### RecipeService
+*RecipeService is omitted to limit document length*
+
+
 ### Data Transfer Objects (DTO)
 We use Data Transfer Objects to handle the conversion between the JSON object and the internal entities.
 An `IngredientDto` was used to store to incoming json from the remote web server. The `IngredientService` could then transform the external model into the entity model. The annotation `@JsonProperty` was used to keep Google's Java Style Guide with reference to variable names. `@Data` annotation is for Lombok to auto-generate some boiler-plate code like getters/setters.
+
+*Note: only the IngredientDto and IngredientDtoWrapper are shown below to limit document length*
 
 ```
 @Data
@@ -314,7 +321,45 @@ public class IngredientDtoWrapper {
 
 }
 ```
-## Models
+## Repository Layer
+The repository layer, or alternatively known as persistence layer, consists of Entities and Repositories. The Entity models represent the property fields that will be saved in the database. The Repository interface exposes the database functions available to the services for interacting with the table containing the respective Entity.
 
+*Note: only the Ingredient Entity and Ingredient Repository are shown below to limit document length*
+### Ingredient Entity
+The `@Entity` annotation specifies that the class is an entity and is mapped to a database table. The `@Table` annotation specifies the name of the database table to be used for mapping. The `@Id` annotation specifies the primary key of an entity and the `@GeneratedValue` provides the strategy for generating primary keys. 
+```
+@Entity
+@Data
+@Table(name="INGREDIENTS")
+public class Ingredient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
+    @Column
+    private String title;
+
+    @Column
+    private LocalDate bestBefore;
+
+    @Column
+    private LocalDate useBy;
+}
+```
+
+### Ingredient Repository
+The `@Repository` annotation is used to define a repository, which is an abstraction of data access and storage. The interface is extended with the `JpaRepository` interface in order to provide additional methods such as *findAllByOrderBy*. 
+
+Spring Data JPA has a built in query creation mechanism which can be used for parsing queries straight from the method name of a query method. Using the property name of the Ingredient entity, three methods are created:
+* findByTitle
+* findByUseByAfter
+* findAllByOrderByBestBeforeAsc
+```
+@Repository
+public interface IngredientRepository extends JpaRepository <Ingredient, Integer> {
+    List<Ingredient> findByTitle(String titleString);
+    List<Ingredient> findByUseByAfter(LocalDate useBy);
+    List<Ingredient> findAllByOrderByBestBeforeAsc();
+}
+```
 
