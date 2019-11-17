@@ -48,7 +48,7 @@ public class LunchService {
         saveRecipesWithCompleteIngredientsToDatabase(lunchMap);
 
         // order the lunch options by Best Before
-        List<Lunch> lunches = lunchRepository.findAllByOrderByBestBeforeAsc();        
+        List<Lunch> lunches = lunchRepository.findAllByOrderByBestBeforeDesc();        
 
         // send back the response using the LunchResponse model
         LunchResponse lunchResponse = new LunchResponse();
