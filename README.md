@@ -21,14 +21,30 @@ The dependencies for the project are installed using Gradle with the build.gradl
 A few of the Spring starter packages were implemented along with Jackson for Json annotations and Lombok for boilerplate code. An in memory database H2 was used in order to benefit from some of the JPA queries and as a provision to easily add an external database in the future.
 
 ```
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE")
+    classpath "se.transmode.gradle:gradle-docker:1.2"
+  }
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
 
-group = 'com.majoapps'
-version = '0.0.1-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "docker"
+
+group = 'markcardamis'
+version = '1.0.0'
+
 sourceCompatibility = '1.8'
 
 configurations {
@@ -59,6 +75,18 @@ test {
 	testLogging {
 		events "passed", "skipped", "failed"
 	}
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+  push = true
+  applicationName = jar.baseName
+  dockerfile = file('Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into stageDir
+    }
+  }
 }
 ```
 
@@ -286,7 +314,7 @@ public class IngredientDtoWrapper {
 
 }
 ```
-
+## Models
 
 
 
