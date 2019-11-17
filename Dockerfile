@@ -5,7 +5,6 @@ VOLUME /tmp
 EXPOSE 8080
 
 ADD lunchapp-1.0.0.jar lunchapp.jar
-##ADD /build/libs/lunchapp-0.0.1-SNAPSHOT.jar lunchapp.jar
 
 RUN bash -c 'touch /lunchapp.jar'
 
