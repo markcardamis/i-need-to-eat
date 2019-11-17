@@ -143,7 +143,6 @@ The business logic consists of the following steps:
 1. Send back a List to the RestController using JPA's OrderBy on the best-before column, listing the recipes with the freshest ingredients first.
 
 ```
-@Data
 @Service
 public class LunchService {
 
@@ -188,17 +187,106 @@ public class LunchService {
 }
 ```
 
+### RestTemplateService
+The `RestTemplateService` uses RestTemplate to make the HTTP requests to retrieve the JSON objects from the remote web servers. Using the `restTemplate.getForObject()` method, we are able to receive the body of the HTTP call only in the response.
+
+```
+@Service
+public class RestTemplateService {
+
+    private final String INGREDIENT_URI = "http://www.mocky.io/v2/5dbf46a5330000f47aa0e55b";
+    private final String RECIPE_URI = "http://www.mocky.io/v2/5c85f7a1340000e50f89bd6c";
+    
+    private final RestTemplate restTemplate;
+
+    @Autowired
+    public RestTemplateService(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
+    }
+
+    public List<RecipeDto> getRecipes() throws Exception {
+        return restTemplate.getForObject(RECIPE_URI, RecipeDtoWrapper.class).getRecipes();
+    }
+
+    public List<IngredientDto> getIngredients() throws Exception {
+        return restTemplate.getForObject(INGREDIENT_URI, IngredientDtoWrapper.class).getIngredients();
+    }
+
+}
+```
+### IngredientService
+The `IngredientService` handles the following operations:
+* Data conversion from IngredientDto to the Ingredient Entity. 
+* Implements the `IngredientRepository` to handle the database interactions within the INGREDIENT table.
+* Handles logic to either update an existing record or create a new one.
+
+
+```
+@Service
+public class IngredientService {
+
+    private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    public IngredientService(IngredientRepository ingredientRepository){
+        this.ingredientRepository = ingredientRepository;
+    }
+
+    Ingredient saveIngredient(@NonNull IngredientDto ingredient) {
+        List<Ingredient> ingredientResponse = ingredientRepository
+            .findByTitle(ingredient.getTitle());
+        Ingredient ingredientEntity = new Ingredient();
+        if (ingredientResponse.isEmpty()) { //add new ingredient as it doesn't exist 
+            ingredientEntity.setTitle(ingredient.getTitle());
+            ingredientEntity.setBestBefore(ingredient.getBestBefore());
+            ingredientEntity.setUseBy(ingredient.getUseBy());
+            ingredientRepository.save(ingredientEntity);
+        } else { //update existing using index 0 as there should only be one type
+            ingredientEntity.setId(ingredientResponse.get(0).getId());
+            ingredientEntity.setTitle(ingredientResponse.get(0).getTitle());
+            ingredientEntity.setBestBefore(ingredient.getBestBefore());
+            ingredientEntity.setUseBy(ingredient.getUseBy());
+            ingredientRepository.save(ingredientEntity);
+        }
+        return ingredientEntity;
+    }
+
+    List<Ingredient> findByUseByAfter(LocalDate localDate) {
+        return ingredientRepository.findByUseByAfter(localDate);
+    }
+
+}
+```
+### Data Transfer Objects (DTO)
+We use Data Transfer Objects to handle the conversion between the JSON object and the internal entities.
+An `IngredientDto` was used to store to incoming json from the remote web server. The `IngredientService` could then transform the external model into the entity model. The annotation `@JsonProperty` was used to keep Google's Java Style Guide with reference to variable names. `@Data` annotation is for Lombok to auto-generate some boiler-plate code like getters/setters.
+
+```
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class IngredientDto {
+
+    @JsonProperty("title") private String title;
+    @JsonProperty("best-before") private LocalDate bestBefore;
+    @JsonProperty("use-by") private LocalDate useBy;
+    
+}
+```
+A `IngredientDtoWrapper` was created as there was a root wrapper name in the JSON response object. The jackson annotation `@JsonRootName` was set to handle this.
+
+```
+@JsonRootName(value = "ingredients") //root Wrapper name
+public class IngredientDtoWrapper {
+
+    private List<IngredientDto> ingredients;
+
+    public IngredientDtoWrapper() {
+        ingredients = new ArrayList<>();
+    }
+
+}
+```
 
 
 
 
-
-
-
-
-
-
-
-
-
-@Data annotation is for Lombok to auto-generate some boiler-plate code like getters/setters.
